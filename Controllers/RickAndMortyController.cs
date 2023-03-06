@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using upswotProj.Services;
 
@@ -16,18 +17,18 @@ namespace upSwotProject.Controllers
         }
         [HttpPost]
         [Route("/api/v1/check-person")]
-        public IActionResult CheckByNameAndEpisode(string personName, string episodeName)
+        public async Task<IActionResult> CheckByNameAndEpisode(string personName, string episodeName)
         {
-            _rickAndMortyService.GetByName(personName);
-            //Check if person has an episode with name @episodeName
-            return NotFound();
+            var result = await _rickAndMortyService.checkPersonInEpisode(personName,episodeName);
+            
+            return Content(result ? "true" : "false");
         }
 
         [HttpGet]
         [Route("/api/v1/person")]
         public async Task<IActionResult> CheckByName(string name)
         {
-            var person = await _rickAndMortyService.GetByName(name);
+            var person = await _rickAndMortyService.GetCharacterByName(name);
             //Return Persong obj
             return NotFound();
         }

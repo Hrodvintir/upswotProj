@@ -9,5 +9,6 @@
         public string type { get; set; }
         public string gender { get; set; }
         public Origin origin { get; set; }
+        public IEnumerable<string> episode { get; set; }
     }
 }
